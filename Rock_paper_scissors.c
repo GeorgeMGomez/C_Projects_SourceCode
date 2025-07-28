@@ -13,8 +13,11 @@ int main(int argc, char **argv){
 
     printf("---ROCK PAPER SCISSORS---\n\n");
 
-    printf("1. Rock \n2. Paper \n3. Scissors \nChoose[1-3]: ");    
-    scanf("%d", &hand);
+    do{
+        printf("1. Rock \n2. Paper \n3. Scissors \nChoose[1-3]: ");
+        scanf("%d", &hand);
+        printf("\n");
+    }while(hand < 1 || hand > 3);
 
     handBot = RandBotHand();
 
