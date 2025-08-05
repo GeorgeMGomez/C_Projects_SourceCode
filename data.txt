@@ -1,3 +1,1 @@
-Name:George  Phone number:6906012712  Email:george.gomez04032@gmail.com
-Name:Amabel  Phone number:6970631835  Email:amabel.gomez@gmail.com
-Name:Gian  Phone number:6999999999  Email:gian@gmail.com
+Name:george  Phone number:6906012712  Email:george.gomez04032@gmail.com

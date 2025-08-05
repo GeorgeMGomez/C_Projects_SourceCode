@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include <ctype.h>
 
 void addContact();
 void viewContacts();
@@ -16,6 +17,7 @@ struct contact {
 int main(int argc, char *argv[]){
     //Contact Manager project
     int decision;
+    bool exit=false;
 
     do{
         printf("1. Add Contact\n");
@@ -27,27 +29,32 @@ int main(int argc, char *argv[]){
         scanf("%d", &decision);
 
         system("clear");
-    }
-    while(decision<1 || decision>4);
 
-    switch(decision){
-        case 1:
-            addContact();
-            break;
-        case 2:
-            viewContacts();
-            break;
-        case 3:
-            searchContact();
-            break;
+        switch(decision){
+            case 1:
+                addContact();
+                break;
+            case 2:
+                viewContacts();
+                break;
+            case 3:
+                searchContact();
+                break;
+            case 4:
+                exit=true;
+        }
     }
+    while(!exit);
+
+    printf("Program terminated...\n");
 
     return 0;
 }
 
 void addContact(){
     struct contact person;
-    int decisionContact = false;
+    int decisionContact = true;
+    char correctness;
 
     FILE *fp = fopen("data.txt", "a");
 
@@ -57,22 +64,40 @@ void addContact(){
         return;
     }
 
-    printf("Add your name: ");
-    scanf("%s", person.name);
+    while(decisionContact){
+        printf("Add your name: ");
+        scanf("%s", person.name);
+
+        //Applying lower casing to each letter in the name
+        for(int i=0; person.name[i]!='\0'; i++){
+            person.name[i] = tolower(person.name[i]);
+        }
     
-    printf("Add your phone number: ");
-    scanf("%s", person.phone);
+        printf("Add your phone number: ");
+        scanf("%s", person.phone);
     
-    printf("Add your email: ");
-    scanf("%s", person.email);
+        printf("Add your email: ");
+        scanf("%s", person.email);
 
-    system("clear");
+        system("clear");
 
-    printf("---CONTACT DETAILS---\n");
-    printf("Name:%s\n", person.name);
-    printf("Phone number:%s\n", person.phone);
-    printf("Email:%s\n", person.email);
+        do{
+            printf("---CONTACT DETAILS---\n");
+            printf("Name:%s\n", person.name);
+            printf("Phone number:%s\n", person.phone);
+            printf("Email:%s\n", person.email);
 
+            printf("Is your information correct? [Y/N]: ");
+            scanf(" %c", &correctness);
+            correctness = toupper(correctness);
+            system("clear");
+        }while(correctness!='Y' && correctness!='N');
+
+        if(correctness=='Y'){
+            decisionContact=false;
+        }
+    }
+        
     fprintf(fp, "Name:%s  Phone number:%s  Email:%s\n", person.name, person.phone, person.email);
     fclose(fp);
 
@@ -95,8 +120,13 @@ void viewContacts(){
     while(fgets(data, 50, fp2)!=NULL){
         printf("%s", data);
     }
+    printf("Press any key to continue... \n");
+    while(getchar() != '\n');
+    getchar();
 
     fclose(fp2);
+
+    system("clear");
 }
 
 void searchContact(){
@@ -114,6 +144,10 @@ void searchContact(){
 
     printf("Enter Name: ");
     scanf("%s", searchName);
+
+    for(int j=0; searchName[j]!='\0'; j++){
+        searchName[j] = tolower(searchName[j]);
+    }
     
     while(fgets(line, sizeof(line), fp3)!=NULL){
         char tag[50] = "Name:";
@@ -131,5 +165,11 @@ void searchContact(){
         printf("Contact with name %s is not found\n", searchName);
     }
 
+    printf("Press any key to continue... \n");
+    while(getchar() != '\n');
+    getchar();
+
     fclose(fp3);
+
+    system("clear");
 }
