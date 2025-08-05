@@ -1,0 +1,10 @@
+#Ignore the data file
+data.txt
+
+#Compiled C files
+*.o
+*.exe
+*.out
+*.a
+*.so
+*.dll
